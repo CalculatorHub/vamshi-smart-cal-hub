@@ -2,7 +2,8 @@ const CACHE_NAME = 'calhub-cache-v1';
 const urlsToCache = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap'
 ];
 
 self.addEventListener('install', event => {
@@ -18,15 +19,11 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        return fetch(event.request).catch(() => {
-          // If fetch fails (offline) and not in cache, you could return a fallback page here
+        // Return cached version OR fetch from network
+        return response || fetch(event.request).catch(() => {
+          // Silent failure if offline and not in cache
         });
-      }
-    )
+      })
   );
 });
 
