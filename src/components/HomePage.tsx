@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  ArrowUp, Lock
+  ArrowUp, Lock, Smartphone, Wifi, WifiOff
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import DownloadAppButton from './DownloadAppSection';
 
 interface HomePageProps {
   onNavigate: (tab: any) => void;
 }
 
 export default function HomePage({ onNavigate }: HomePageProps) {
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -56,10 +70,30 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             Built with AES-256 encrypted logic for speed, precision, and absolute privacy.
           </p>
 
-          <div className="hidden md:flex flex-col gap-4 pt-6 border-t border-gray-200 dark:border-white/10">
-            <div className="flex items-center gap-3 text-xs font-bold text-gray-400 uppercase tracking-widest">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              Core Link Active
+          <div className="flex flex-col gap-6 pt-6 border-t border-gray-200 dark:border-white/10">
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-3 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-orange-500'}`} />
+                {isOnline ? 'Core Link Active' : 'Offline Mode'}
+              </div>
+              <div className="flex items-center gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                <Smartphone className="w-3.5 h-3.5" />
+                PWA Ready
+              </div>
+            </div>
+
+            {/* Install Prompt in Hero */}
+            <div className="p-6 bg-gradient-to-br from-blue-600/5 to-indigo-600/5 rounded-3xl border border-blue-500/10 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+                  <Smartphone className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-xs font-black text-gray-900 dark:text-white uppercase tracking-widest">Professional App</h3>
+                  <p className="text-[10px] font-bold text-gray-500 dark:text-gray-400">Install for the full Matrix experience</p>
+                </div>
+              </div>
+              <DownloadAppButton />
             </div>
           </div>
         </motion.div>

@@ -118,7 +118,9 @@ export default function App() {
             <span>Feedback</span>
           </button>
 
-          <DownloadAppButton />
+          <div className="hidden sm:block">
+            <DownloadAppButton />
+          </div>
 
           <button 
             onClick={() => setIsDarkMode(!isDarkMode)}
