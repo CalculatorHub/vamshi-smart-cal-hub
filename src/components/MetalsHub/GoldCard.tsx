@@ -49,6 +49,7 @@ export default function GoldCard() {
     }
 
     setError('');
+    // Base Gold Rate (24K) * Purity Multiplier (e.g. 0.916 for 22K)
     const adjustedRate = R * purity.value;
     const goldValue = W * adjustedRate;
     const makingCharges = (goldValue * M) / 100;
@@ -63,12 +64,12 @@ export default function GoldCard() {
     });
   };
 
-  // Re-calculate if already valid when purity changes
+  // Automatically recalculate when any input or purity changes, if they are valid
   useEffect(() => {
-    if (results.isValid) {
+    if (weight && rate && making) {
       handleCalculate();
     }
-  }, [purity]);
+  }, [weight, rate, making, purity]);
 
   const isFieldInvalid = (val: string, field: keyof typeof hasInteracted) => {
     return hasInteracted[field] && !val;
