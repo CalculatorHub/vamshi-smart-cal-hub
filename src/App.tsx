@@ -6,7 +6,6 @@ import EstatePage from './components/EstateHub/EstatePage';
 import BottomNav from './components/BottomNav';
 import HomePage from './components/HomePage';
 import DownloadAppButton from './components/DownloadAppSection';
-import InstallApp from './components/InstallApp';
 import AdminPanel from './components/AdminPanel';
 import FeedbackSystem from './components/FeedbackSystem';
 import { 
@@ -169,7 +168,6 @@ export default function App() {
       </div>
 
       {/* Global Navigation */}
-      <InstallApp />
       <BottomNav activeTab={activeTab === 'admin' ? null : activeTab} onTabChange={(tab) => { setActiveTab(tab); setShowUserMenu(false); }} />
 
       {/* Feedback Modal Overlay */}
